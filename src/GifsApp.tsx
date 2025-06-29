@@ -1,19 +1,41 @@
-
+import { GifList } from './gifs/components/GifList';
+import { PreviousSearches } from './gifs/components/PreviousSearches';
+import { useGifs } from './gifs/hooks/useGifs';
+import { CustomHeader } from './shared/components/CustomHeader';
+import { SearchBar } from './shared/components/SearchBar';
+import { LoadMoreGifs } from './gifs/components/LoadMoreGifs';
+import { Loader } from './shared/components/Loader';
 
 export const GifsApp = () => {
+  const {
+    handleSearch,
+    previousTerms,
+    handleTermClicked,
+    gifs,
+    loadMoreGifs,
+    isLoading,
+  } = useGifs();
+
   return (
     <>
-        <h1>GIF Explorer</h1>
-        <h3>Discover and share the perfect GIF for every moment</h3>
-        <div>
-            <input type="text" placeholder="Search for GIFs..." className="search-input" />
-            <button className="search-button">Search</button>
-        </div>
+      <CustomHeader
+        title="GIF Explorer"
+        description="Discover and share the perfect GIF for every moment"
+      />
 
-        <div>
-            <h1>Trending</h1>
-        </div>
-    
+      <SearchBar placeholder="Search for GIFs..." onQuery={handleSearch} />
+
+      <PreviousSearches
+        searches={previousTerms}
+        onLabelClicked={handleTermClicked}
+      />
+
+      {/* Gifs */}
+      <GifList gifs={gifs} />
+
+      {isLoading && <Loader />}
+
+      {gifs.length > 0 && !isLoading && <LoadMoreGifs loadMore={loadMoreGifs} />}
     </>
-  )
-}
+  );
+};
