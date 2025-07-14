@@ -25,17 +25,21 @@ export const GifsApp = () => {
 
       <SearchBar placeholder="Search for GIFs..." onQuery={handleSearch} />
 
-      <PreviousSearches
-        searches={previousTerms}
-        onLabelClicked={handleTermClicked}
-      />
+      {gifs.length > 0 && (
+        <PreviousSearches
+          searches={previousTerms}
+          onLabelClicked={handleTermClicked}
+        />
+      )}
 
       {/* Gifs */}
       <GifList gifs={gifs} />
 
       {isLoading && <Loader />}
 
-      {gifs.length > 0 && !isLoading && <LoadMoreGifs loadMore={loadMoreGifs} />}
+      {gifs.length > 0 && !isLoading && (
+        <LoadMoreGifs loadMore={loadMoreGifs} />
+      )}
     </>
   );
 };
